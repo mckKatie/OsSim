@@ -1,0 +1,6 @@
+Z:\CS401\dataFile\dataFile\bin\Debug\dataFile.exe.config
+Z:\CS401\dataFile\dataFile\bin\Debug\dataFile.exe
+Z:\CS401\dataFile\dataFile\bin\Debug\dataFile.pdb
+Z:\CS401\dataFile\dataFile\obj\Debug\dataFile.csprojResolveAssemblyReference.cache
+Z:\CS401\dataFile\dataFile\obj\Debug\dataFile.exe
+Z:\CS401\dataFile\dataFile\obj\Debug\dataFile.pdb
