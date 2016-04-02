@@ -15,7 +15,7 @@ namespace Sim
     {
         int PID;
         state currentState;
-        List<int> bursts;
+        public List<int> bursts;
         Metadata log;
 
         ProcessControlBLock(int currentTime, int _PID, List<int> _bursts)
