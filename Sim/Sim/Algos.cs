@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sim
 {
-    class RoundRobin
+    class RoundRobin : SimManager
     {
+        int quantumSwitch;
         int quantum = 20;
 
         int getQuantum()
@@ -22,7 +23,10 @@ namespace Sim
 
         void run()
         {
-            
+            int quantumSwitch = clock + quantum;
+            ProcessControlBLock temp;
+            processes.TryGetValue(i, out temp);
+
         }
     }
 }
