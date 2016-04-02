@@ -60,16 +60,16 @@ namespace Sim
             return average;
         }
 
-        public void DisplayAverages(Dictionary<int, Metadata> logInfo)
+        public void DisplayAverages(Dictionary<int, ProcessControlBLock> logInfo)
         {
-            List<KeyValuePair<int,Metadata>> temp = new List<KeyValuePair<int,Metadata>>();
+            List<KeyValuePair<int,ProcessControlBLock>> temp = new List<KeyValuePair<int,ProcessControlBLock>>();
             temp.Clear();
             temp = logInfo.ToList();
 
             List<Metadata> logList = new List<Metadata>();
             for (int i = 0; i < logInfo.Count; i++)
             {
-                logList.Add(temp[i].Value);
+                logList.Add(temp[i].Value.log);
             }
 
             double responseAvg = AverageResponseTime(logList);
