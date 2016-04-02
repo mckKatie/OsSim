@@ -31,9 +31,20 @@ namespace Sim
                     }
                     else if(temp.getState() == state.running)   //if interrupted
                     {
-                        ProcessReadyQueue(id);
+                        ProcessReadyQueue(id); // need logic in PCB to adjust bursts vec
                     }
-                    p.FreeProcessor();  //sets processor state to free now that content has been saved
+                    p.SwapContexts();  //set state to swapping, busy for one tick
+                }
+            }
+        }
+
+        public void FinishSwaps()//sets processor state to free now that content has been saved
+        {
+            foreach (Processor p in processors)
+            {
+                if (p.getState() == Pstate.swapping)
+                {
+                    p.FreeProcessor();
                 }
             }
         }
@@ -55,7 +66,7 @@ namespace Sim
         {
             ProcessControlBLock temp;
             processes.TryGetValue(PID, out temp);
-            int burstDuration = temp.bursts[0];
+            int burstDuration = temp.getNextBurst();
             int burstCompletionTime = clock + burstDuration;
 
             IOList.Add(new Tuple<int, int>(burstCompletionTime, PID));
@@ -68,7 +79,7 @@ namespace Sim
             {
                 if( p.getState() == Pstate.open)
                 {
-                    p.ContextSwap(ProcessOpenProcessor());
+                    p.AssignProcess(ProcessOpenProcessor());
                 }
             }
         }

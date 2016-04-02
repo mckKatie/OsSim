@@ -15,18 +15,19 @@ namespace Sim
     {
         int PID;
         state currentState;
-        public List<int> bursts;
+        List<int> bursts;
         Metadata log;
 
-        ProcessControlBLock(int currentTime, int _PID, List<int> _bursts)
+        ProcessControlBLock(int submitTime, int _PID, List<int> _bursts)
         {
             PID = _PID;
             currentState = state.ready;
             bursts = _bursts;   //this is referentially assigned
-            log = new Metadata(currentTime);
+            log = new Metadata(submitTime);
         }
         public state getState() { return currentState; }
-        public int ProcessorInitiate(int currentTime)
+        public int getNextBurst() { return bursts[0]; }
+        public void ProcessorInitiate(int currentTime)
         {
             log.UpdateLog(currentState, currentTime);
             if (log.getResponse() == -1)
@@ -34,32 +35,26 @@ namespace Sim
                 log.setResponse(currentTime);
             }
             currentState = state.running;
-            return bursts[0];
         }
 
-        public int IOInitiate(int currentTime)
-        {
-            return bursts[0];
-        }
-
-        public void FinishBurst(int currentTime)
+        public void CPUFinish(int currentTime)
         {
             log.UpdateLog(currentState, currentTime);
             bursts.RemoveAt(0);
-            if(currentState == state.running)
-            {
-                currentState = state.io;
-            }
-            if(currentState == state.io)
-            {
-                currentState = state.ready;
-            }
+            currentState = state.ioready;
         }
 
-        public void InterruptCPUBurst(int currentTime)
+        public void CPUInterrupt(int currentTime)
         {
             int workDone = log.UpdateLog(currentState, currentTime);
             bursts[0] -= workDone;
+            currentState = state.ready;
+        }
+
+        public void IOFinish(int currentTime)
+        {
+            log.UpdateLog(currentState, currentTime);
+            bursts.RemoveAt(0);
             currentState = state.ready;
         }
     }
