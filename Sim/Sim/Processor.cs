@@ -10,13 +10,16 @@ namespace Sim
 {
     class Processor
     {
-        public Pstate state;
+        Pstate state;
         int PID;
         int burstCompletionTime; // either because burst is completed or quantum reached
 
         Processor(){
             state = Pstate.open;
         }
+
+        public int getID(){ return PID; }
+        public Pstate getState(){ return state;}
         public void CheckStatus(int currentTime)
         {
             if (burstCompletionTime == currentTime)
@@ -25,10 +28,10 @@ namespace Sim
             }
         }
 
-        public void ContextSwap(int _PID, int _burstCompletionTime) // burst completion time needs to be set to sooner of burst time and quantum in os strategy
+        public void ContextSwap(Tuple<int, int> PID_BurstCompletionTime) // burst completion time needs to be set to sooner of burst time and quantum in os strategy
         {
-            PID = _PID;
-            burstCompletionTime = _PID;
+            PID = PID_BurstCompletionTime.Item1;
+            burstCompletionTime = PID_BurstCompletionTime.Item2;
             state = Pstate.busy;
         }
 

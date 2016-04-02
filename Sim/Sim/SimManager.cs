@@ -11,17 +11,39 @@ namespace Sim
         int clock;
         Dictionary<int, ProcessControlBLock> processes;
         List<Tuple<int, int>> subTimes;
-
-
         List<Tuple<int, int>> IOList; //dont know what to call this <outTime, PID>
+        List<Processor> processors;
 
+
+        public void CheckProcessorStatus()
+        {
+            foreach (Processor p in processors)
+            {
+                p.CheckStatus(clock); // this will toggle processor status to stop if limit is reached
+                if(p.getState() == Pstate.stop)
+                {
+                    int id = p.getID();
+                    ProcessControlBLock temp;
+                    processes.TryGetValue(id, out temp);
+                    if (temp.getState() == state.ioready)   //if burst finished (need to have logic about finishing in PCB)
+                    {
+                        StartIO(id);
+                    }
+                    else if(temp.getState() == state.running)   //if interrupted
+                    {
+                        ProcessReadyQueue(id);
+                    }
+                    p.FreeProcessor();  //sets processor state to free now that content has been saved
+                }
+            }
+        }
         public void CheckIOStatus() //check procList for processes ready to be placed in wait queue
         {
             while(true)
             {
                 if(IOList[0].Item1 == clock)
                 {
-                    ProcReadyQueue(IOList[0].Item2);
+                    ProcessReadyQueue(IOList[0].Item2);
                     IOList.RemoveAt(0);
                     continue;
                 }
@@ -40,9 +62,20 @@ namespace Sim
             IOList.Sort();
         }
 
-        abstract public void ProcReadyQueue(int PID){} // pushes PID into ready queue, depends on strategy so will be overloaded in subclasses
+        public void AssignFreeProcessors()
+        {
+            foreach (Processor p in processors)
+            {
+                if( p.getState() == Pstate.open)
+                {
+                    p.ContextSwap(ProcessOpenProcessor());
+                }
+            }
+        }
 
-
+        abstract public void ProcessReadyQueue(int PID){} // pushes PID into ready queue, depends on strategy so will be overloaded in subclasses
+        // this will need to set state of process
+        abstract public Tuple<int, int> ProcessOpenProcessor() { return new Tuple<int, int>(0,0); } //returns PID of process to get processor time
     }
  
 }

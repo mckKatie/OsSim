@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 
 
-enum state {running, ready, io}
+enum state {running, ioready, io, ready}
 
 namespace Sim
 {
@@ -25,7 +25,7 @@ namespace Sim
             bursts = _bursts;   //this is referentially assigned
             log = new Metadata(currentTime);
         }
-
+        public state getState() { return currentState; }
         public int ProcessorInitiate(int currentTime)
         {
             log.UpdateLog(currentState, currentTime);
