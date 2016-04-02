@@ -35,10 +35,10 @@ namespace Sim
             state = Pstate.busy;
         }
 
-        public int FreeProcessor()
+        public void FreeProcessor()
         {
             state = Pstate.open;
-            return PID;
+            //return PID;
         }
     }
 }
