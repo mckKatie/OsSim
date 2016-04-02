@@ -77,6 +77,7 @@ namespace Sim
             double startAvg = AverageStartTime(logList);
             double endAvg = AverageEndTime(logList);
 
+            // convert to write to file
             Console.WriteLine("Averages\n");
             Console.WriteLine("Response Time: {0}, turnaround Time: {1}, Start Time: {2}, end Time: {3}", 
                 responseAvg, turnAroundAvg, startAvg, endAvg);
