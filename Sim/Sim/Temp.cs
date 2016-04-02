@@ -89,6 +89,23 @@ namespace Sim
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logList"></param>
+        /// <returns></returns>
+        //public double AverageContactSwitchTime(List<Metadata> logList)
+        //{
+        //    double average = 0;
+        //    for (int i = 0; i < logList.Count; i++)
+        //    {
+        //        double turn = System.Convert.ToDouble(logList[i].numContactSwitch);
+        //        average += turn;
+        //    }
+        //    average /= logList.Count;
+        //    return average;
+        //}
+
+        /// <summary>
         /// function that computes and outputs all results of simulation
         /// </summary>
         /// <param name="logInfo"></param>
@@ -118,5 +135,6 @@ namespace Sim
                     responseAvg, turnAroundAvg, startAvg, endAvg);
             }
         }
+
     }
 }
