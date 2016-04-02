@@ -1,3 +1,4 @@
 C:\Users\jburge16\Desktop\Sim\Sim\bin\Debug\Sim.exe.config
 C:\Users\jburge16\Desktop\OsSim\Sim\Sim\bin\Debug\Sim.exe.config
 Z:\CS475_OS\SimProject\Sim\Sim\bin\Debug\Sim.exe.config
+Z:\Operating_Systems\OsSim\Sim\Sim\bin\Debug\Sim.exe.config
