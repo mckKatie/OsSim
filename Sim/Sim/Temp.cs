@@ -14,25 +14,12 @@ namespace Sim
             return turnaroundTime;
         }
 
-        public int ResponseTime(int arrival, int startTime)
-        {
-            int responseTime = startTime - arrival;
-            return responseTime;
-        }
-        
-        public void OutputAnalysisOneProcess(Metadata log)
-        {
-            turnaround = turnaroundTime(log.get(submitted), log.get(completed));
-            response = ResponseTime(log.get(submitted), log.get(start));
-
-        }
-
         public double AverageStartTime(List<Metadata> logList)
         {
             double average = 0;
             for (int i = 0; i < logList.Count; i++)
             {
-                average += System.Convert.ToDouble(logList[i].get(start));
+                average += System.Convert.ToDouble(logList[i].response);
             }
             average /= logList.Count;
             return average;
@@ -43,7 +30,7 @@ namespace Sim
             double average = 0;
             for (int i = 0; i < logList.Count; i++)
             {
-                average += System.Convert.ToDouble(logList[i].get(completed));
+                average += System.Convert.ToDouble(logList[i].completed);
             }
             average /= logList.Count;
             return average;
@@ -54,7 +41,7 @@ namespace Sim
             double average = 0;
             for (int i = 0; i < logList.Count; i++)
             {
-                double turn = System.Convert.ToDouble(turnaroundTime(logList[i].get(submitted), logList[i].get(start)));
+                double turn = System.Convert.ToDouble(turnaroundTime(logList[i].submitted, logList[i].completed));
                 average += turn;
             }
             average /= logList.Count;
@@ -66,7 +53,7 @@ namespace Sim
             double average = 0;
             for (int i = 0; i < logList.Count; i++)
             {
-                double turn = System.Convert.ToDouble(ResponseTime(logList[i].get(submitted), logList[i].get(completed)));
+                double turn = System.Convert.ToDouble(logList[i].response);
                 average += turn;
             }
             average /= logList.Count;
@@ -75,12 +62,16 @@ namespace Sim
 
         public void DisplayAverages(Dictionary<int, Metadata> logInfo)
         {
+            List<KeyValuePair<int,Metadata>> temp = new List<KeyValuePair<int,Metadata>>();
+            temp.Clear();
+            temp = logInfo.ToList();
+
             List<Metadata> logList = new List<Metadata>();
-            logList.Clear();
-            for(int i = 0; i < logInfo.Count; i++)
+            for (int i = 0; i < logInfo.Count; i++)
             {
-                logList.Add(logInfo[i].second);
+                logList.Add(temp[i].Value);
             }
+
             double responseAvg = AverageResponseTime(logList);
             double turnAroundAvg = AverageTurnaroundTime(logList);
             double startAvg = AverageStartTime(logList);
