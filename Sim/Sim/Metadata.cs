@@ -8,15 +8,15 @@ namespace Sim
 {
     class Metadata
     {
-        int submitted;
-        int completed;
+        public int submitted;
+        public int completed;
 
-        int response;
-        int execution;
-        int wait;
-        int io;
+        public int response;
+        public int execution;
+        public int wait;
+        public int io;
 
-        int burstMarker;
+        public int burstMarker;
 
         public Metadata(int currentTime)
         {
